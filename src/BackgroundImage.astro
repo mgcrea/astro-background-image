@@ -1,0 +1,61 @@
+---
+import { type LocalImageProps } from "astro:assets";
+import { getImage } from "astro:assets";
+import { hash } from "./utils/hash";
+
+const DEFAULT_WIDTH_BREAKPOINTS = [480, 640, 768, 1024, 1280, 1536, 1920, 2560];
+
+type Props = Pick<LocalImageProps, "src" | "widths" | "class" | "style" | "format">;
+
+const { src: srcProp, widths: widthsProp, class: className, style, format } = Astro.props;
+
+const src = srcProp instanceof Promise ? (await srcProp).default : srcProp;
+
+const uniqueClassName = `background-image-${hash(typeof src === "string" ? src : src.src)}`;
+
+const widths =
+  widthsProp ??
+  Array.from(
+    DEFAULT_WIDTH_BREAKPOINTS.reverse().reduce(
+      (soFar, width) => {
+        if (width < src.width) {
+          soFar.add(width);
+        }
+        return soFar;
+      },
+      new Set([src.width]),
+    ),
+  ).toSorted((a, b) => a - b);
+
+const image = await getImage({ src, widths, format });
+
+const srcset = image.srcSet.attribute.split(",").map((entry) => {
+  const [url, width] = entry.trim().split(" ");
+  return { url: `url("${url?.trim()}")`, width: width?.trim().replace("w", "px") };
+});
+---
+
+<div class={["background-image", uniqueClassName, className].filter(Boolean).join(" ")} style={style}>
+  <slot />
+</div>
+
+<script define:vars={{ uniqueClassName, srcset }} is:inline>
+  const container = document.currentScript.parentElement.querySelector(`.${uniqueClassName}`);
+
+  const style = document.createElement("style");
+  const mediaQueries = srcset.slice(1).map(({ url, width }, index) => {
+    return `
+      @media (min-width: ${width}) {
+        .background-image.${uniqueClassName} {
+          background-image: ${url};
+        }
+      }
+    `;
+  });
+  style.innerHTML = `
+    .background-image.${uniqueClassName} {
+      background-image: ${srcset[0].url};
+    }
+  `.concat(mediaQueries.join("\n"));
+  container.appendChild(style);
+</script>

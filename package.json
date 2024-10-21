@@ -1,6 +1,6 @@
 {
-  "name": "astro-background-image",
-  "version": "0.0.1",
+  "name": "@mgcrea/astro-background-image",
+  "version": "0.1.0",
   "type": "module",
   "exports": {
     ".": "./index.ts"
@@ -12,15 +12,19 @@
   "keywords": [
     "astro-component"
   ],
-  "scripts": {},
-  "devDependencies": {
-    "astro": "^4.16.6"
+  "scripts": {
+    "prettify": "prettier --write src/"
   },
+  "dependencies": {},
   "peerDependencies": {
     "astro": "^4.0.0"
   },
-  "dependencies": {
+  "devDependencies": {
     "@astrojs/check": "^0.9.4",
+    "astro": "^4.16.6",
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-organize-imports": "^4.1.0",
     "typescript": "^5.6.3"
   }
 }

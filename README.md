@@ -1,35 +1,27 @@
-# Astro Starter Kit: Component Package
+# @mgcrea/astro-background-image
 
-This is a template for an Astro component library. Use this template for writing components to use in multiple projects or publish to NPM.
+Basic component to render a background image with Astro.
+
+- Leverages the `getImage()` helper from `astro:assets` to generate responsive image URLs.
+- Supports `srcset` and `widths` attributes.
 
 ```sh
-npm create astro@latest -- --template component
+npm install --dev @mgcrea/astro-background-image
+# or
+pnpm add --save-dev @mgcrea/astro-background-image
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/non-html-pages)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/non-html-pages)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/component/devcontainer.json)
+## Usage
 
-## 🚀 Project Structure
+```astro
+---
+import BackgroundImage from '@mgcrea/astro-background-image';
 
-Inside of your Astro project, you'll see the following folders and files:
+import heroSrc from "src/assets/hero.jpg";
+---
 
-```text
-/
-├── index.ts
-├── src
-│   └── MyComponent.astro
-├── tsconfig.json
-├── package.json
+<section id="hero" class="relative">
+ <BackgroundImage src={heroSrc} class="bg-cover">
+ <div>Hero</div>
+</section>
 ```
-
-The `index.ts` file is the "entry point" for your package. Export your components in `index.ts` to make them importable from your package.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command       | Action                                                                                                                                                                                                                           |
-| :------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm link`    | Registers this package locally. Run `npm link my-component-library` in an Astro project to install your components                                                                                                               |
-| `npm publish` | [Publishes](https://docs.npmjs.com/creating-and-publishing-unscoped-public-packages#publishing-unscoped-public-packages) this package to NPM. Requires you to be [logged in](https://docs.npmjs.com/cli/v8/commands/npm-adduser) |

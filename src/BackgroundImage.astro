@@ -7,7 +7,7 @@ const DEFAULT_WIDTH_BREAKPOINTS = [480, 640, 768, 1024, 1280, 1536, 1920, 2560];
 
 type Props = Pick<LocalImageProps, "src" | "widths" | "class" | "style" | "format">;
 
-const { src: srcProp, widths: widthsProp, class: className, style, format } = Astro.props;
+const { src: srcProp, widths: widthsProp, class: className = "", style, format } = Astro.props;
 
 const src = srcProp instanceof Promise ? (await srcProp).default : srcProp;
 
@@ -35,7 +35,7 @@ const srcset = image.srcSet.attribute.split(",").map((entry) => {
 });
 ---
 
-<div class={["background-image", uniqueClassName, className].filter(Boolean).join(" ")} style={style}>
+<div class={`background-image ${uniqueClassName} ${className}`.trim()} style={style}>
   <slot />
 </div>
 

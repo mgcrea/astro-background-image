@@ -1,6 +1,6 @@
 {
   "name": "@mgcrea/astro-background-image",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Simple BackgroundImage component for astro",
   "author": "Olivier Louvignes <olivier@mgcrea.io>",
   "repository": "github:mgcrea/astro-background-image",
